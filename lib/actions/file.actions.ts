@@ -30,6 +30,18 @@ export const executeCode = async ({ language, sourceCode }: ExecuteCodeProps) =>
   }
 };
 
+export const getFile = async (fileId: string) => {
+  try {
+    const user = await getUserInfo();
+
+    await connectToDatabase();
+    const file = await File.findOne({ externalUserId: user.id, _id: fileId });
+    return parseStringify(file);
+  } catch (error: any) {
+    console.error("Error getting file: ", error);
+  }
+};
+
 export const getFiles = async () => {
   try {
     const user = await getUserInfo();
@@ -83,7 +95,7 @@ export const deleteFile = async (fileId: string) => {
 export const updateFile = async ({ fileId, fileContent }: UpdateFileProps) => {
   try {
     const user = await getUserInfo();
-
+    console.log(fileId);
     await connectToDatabase();
     const file = await File.findById(fileId);
     if (!file) {
@@ -223,7 +235,7 @@ export const setCollaborative = async (fileId: string) => {
       return null;
     }
 
-    file.isCollaborative = true;
+    file.isCollaborative = !file.isCollaborative;
 
     await file.save();
 

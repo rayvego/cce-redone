@@ -75,4 +75,22 @@ declare type FileCardProps = {
   file: FileDocument;
   handleDeleteFile: () => Promise<void>;
   handleOpenFile: () => Promise<void>;
+  handleSelect: () => void;
+};
+
+declare type CodeEditorProps = {
+  code: string;
+  fileId: string;
+  // handleSave: () => Promise<void>;
+  // role: "editor" | "viewer" | null;
+};
+
+declare type LanguageSelectorProps = {
+  language: string;
+  onSelect: (lang: string) => void;
+};
+
+declare type OutputProps = {
+  language: string;
+  code: string;
 };
