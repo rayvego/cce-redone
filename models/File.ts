@@ -1,14 +1,14 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
-export interface FileDocument extends Document {
-  externalUserId: string;
-  file_name: string;
-  file_content: string;
-  isCollaborative: boolean;
-  collaborators: { userId: string; role: "editor" | "viewer" }[];
-  createdAt: Date;
-  updatedAt: Date;
-}
+// export interface FileDocument extends Document {
+//   externalUserId: string;
+//   file_name: string;
+//   file_content: string;
+//   isCollaborative: boolean;
+//   collaborators: { userId: string; role: "editor" | "viewer" }[];
+//   createdAt: Date;
+//   updatedAt: Date;
+// }
 
 const FileSchema: Schema<FileDocument> = new mongoose.Schema({
   externalUserId: {
