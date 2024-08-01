@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { executeCode } from "@/lib/actions/file.actions";
+import { executeCode, getCode } from "@/lib/actions/file.actions";
 import { cn } from "@/lib/utils";
+import { useParams } from "next/navigation";
 
-const Output = ({ code, language }: OutputProps) => {
+const Output = ({ language }: OutputProps) => {
   // states to store the output, loading state, and error state
   const [output, setOutput] = useState<string[]>();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  // function to run the code
+  const params = useParams();
+
   const runCode = async () => {
+    // TODO: Fetch the code from the liveblocks server
+    const fileId = params.fileId as string;
+    const code = await getCode({ fileId });
     if (!code) return;
     try {
       setIsLoading(true);

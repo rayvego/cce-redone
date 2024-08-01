@@ -22,10 +22,10 @@ const FileSchema: Schema<FileDocument> = new mongoose.Schema({
   file_content: {
     type: String,
   },
-  isCollaborative: {
-    type: Boolean,
-    default: false,
-  },
+  // isCollaborative: {
+  //   type: Boolean,
+  //   default: false,
+  // },
   collaborators: {
     type: [
       {

@@ -6,6 +6,18 @@ import { getUserInfo } from "@/lib/actions/user.actions";
 import connectToDatabase from "@/lib/mongoose";
 import File from "@/models/File";
 import User from "@/models/User";
+import { liveblocks } from "@/lib/liveblocks";
+import * as Y from "yjs";
+import { LiveblocksProvider } from "@liveblocks/react/suspense";
+
+export const getCode = async ({ fileId }: { fileId: string }) => {
+  try {
+    const yjsDocument = await liveblocks.getYjsDocument(fileId);
+    return yjsDocument.monaco?.toString();
+  } catch (error: any) {
+    console.error("Error getting code: ", error);
+  }
+};
 
 export const executeCode = async ({ language, sourceCode }: ExecuteCodeProps) => {
   try {
@@ -30,12 +42,13 @@ export const executeCode = async ({ language, sourceCode }: ExecuteCodeProps) =>
   }
 };
 
+// TODO: Update the logic so that creator and collaborators both can access the file
 export const getFile = async (fileId: string) => {
   try {
     const user = await getUserInfo();
 
     await connectToDatabase();
-    const file = await File.findOne({ externalUserId: user.id, _id: fileId });
+    const file = await File.findOne({ /*externalUserId: user.id,*/ _id: fileId });
     return parseStringify(file);
   } catch (error: any) {
     console.error("Error getting file: ", error);
@@ -235,7 +248,7 @@ export const setCollaborative = async (fileId: string) => {
       return null;
     }
 
-    file.isCollaborative = !file.isCollaborative;
+    // file.isCollaborative = !file.isCollaborative;
 
     await file.save();
 
@@ -281,10 +294,10 @@ export const collaborate = async (fileId: string) => {
       return null;
     }
 
-    if (!file.isCollaborative) {
-      console.error("File is not collaborative");
-      return null;
-    }
+    // if (!file.isCollaborative) {
+    //   console.error("File is not collaborative");
+    //   return null;
+    // }
 
     const role = file.collaborators.find((c) => c.userId === user.id)?.role || undefined;
 

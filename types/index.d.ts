@@ -61,7 +61,7 @@ declare type FileDocument = {
   externalUserId: string;
   file_name: string;
   file_content: string;
-  isCollaborative: boolean;
+  // isCollaborative: boolean;
   collaborators: { userId: string; role: "editor" | "viewer" }[];
   createdAt: Date;
   updatedAt: Date;
@@ -75,7 +75,7 @@ declare type FileCardProps = {
   file: FileDocument;
   handleDeleteFile: () => Promise<void>;
   handleOpenFile: () => Promise<void>;
-  handleSelect: () => void;
+  // handleSelect: () => void;
 };
 
 declare type CodeEditorProps = {
@@ -92,5 +92,4 @@ declare type LanguageSelectorProps = {
 
 declare type OutputProps = {
   language: string;
-  code: string;
 };

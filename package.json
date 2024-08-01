@@ -10,6 +10,11 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^5.2.4",
+    "@liveblocks/client": "^2.3.0",
+    "@liveblocks/node": "^2.3.0",
+    "@liveblocks/react": "^2.3.0",
+    "@liveblocks/react-ui": "^2.3.0",
+    "@liveblocks/yjs": "^2.3.0",
     "@monaco-editor/react": "^4.6.0",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-popover": "^1.1.1",
@@ -23,7 +28,10 @@
     "react-dom": "^18",
     "svix": "^1.25.0",
     "tailwind-merge": "^2.4.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "y-monaco": "^0.1.5",
+    "y-protocols": "^1.0.6",
+    "yjs": "^13.6.18"
   },
   "devDependencies": {
     "@types/node": "^20",

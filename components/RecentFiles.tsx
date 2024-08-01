@@ -20,31 +20,31 @@ const RecentFiles = ({ initialFiles }: RecentFilesProps) => {
   const [files, setFiles] = useState<FileDocument[]>(initialFiles);
   const [newFileName, setNewFileName] = useState("Untitled File");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<FileDocument | null>(null);
+  // const [selectedFile, setSelectedFile] = useState<FileDocument | null>(null);
 
   const router = useRouter();
 
-  const handleFileSelect = (file: FileDocument) => {
-    setSelectedFile(file);
-  };
+  // const handleFileSelect = (file: FileDocument) => {
+  //   setSelectedFile(file);
+  // };
 
   const handleOpenChange = (open: boolean) => setIsCreateModalOpen(open);
 
   // TODO: Prompt user to add collaborators after setting collaborative mode
-  const handleSetCollaborative = async () => {
-    if (!selectedFile) {
-      return;
-    }
-
-    const res = await setCollaborative(selectedFile._id);
-
-    if (!res) {
-      console.error("Failed to set collaborative mode");
-      return;
-    }
-
-    console.log("Collaborative mode set on file: ", selectedFile._id);
-  };
+  // const handleSetCollaborative = async () => {
+  //   if (!selectedFile) {
+  //     return;
+  //   }
+  //
+  //   const res = await setCollaborative(selectedFile._id);
+  //
+  //   if (!res) {
+  //     console.error("Failed to set collaborative mode");
+  //     return;
+  //   }
+  //
+  //   console.log("Collaborative mode set on file: ", selectedFile._id);
+  // };
 
   const handleOpenFile = async (fileId: string) => {
     router.push(`/editor/${fileId}`);
@@ -91,9 +91,9 @@ const RecentFiles = ({ initialFiles }: RecentFilesProps) => {
       <div className={"flex justify-between"}>
         <h2 className={"text-2xl font-semibold"}>Recent Files</h2>
         <div className={"flex gap-x-5"}>
-          <Button variant={"destructive"} onClick={handleSetCollaborative}>
-            Collaborate
-          </Button>
+          {/*<Button variant={"destructive"} onClick={handleSetCollaborative}>*/}
+          {/*  Collaborate*/}
+          {/*</Button>*/}
 
           <Dialog open={isCreateModalOpen} onOpenChange={handleOpenChange}>
             <DialogTrigger asChild>
@@ -133,7 +133,7 @@ const RecentFiles = ({ initialFiles }: RecentFilesProps) => {
             file={file}
             handleDeleteFile={() => handleDeleteFile(file._id)}
             handleOpenFile={() => handleOpenFile(file._id)}
-            handleSelect={() => handleFileSelect(file)}
+            // handleSelect={() => handleFileSelect(file)}
           />
         ))}
       </div>

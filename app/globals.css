@@ -161,6 +161,9 @@
     @apply flex flex-col justify-between gap-8;
   }
 
+  .auth-page {
+    @apply flex h-screen w-full flex-col items-center justify-center gap-10;
+  }
 
   .profile-banner {
     @apply h-[120px] w-full bg-gradient-mesh bg-cover bg-no-repeat;

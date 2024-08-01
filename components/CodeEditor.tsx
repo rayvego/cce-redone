@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Editor } from "@monaco-editor/react";
 import { cn } from "@/lib/utils";
 import { CODE_SNIPPETS } from "@/lib/constants";
@@ -8,30 +8,62 @@ import { LanguageSelector } from "@/components/LanguageSelector";
 import { updateFile } from "@/lib/actions/file.actions";
 import { Button } from "@/components/ui/button";
 import Output from "@/components/Output";
+// collaborative part imports
 
-const CodeEditor = ({ code, fileId }: CodeEditorProps) => {
-  const [value, setValue] = useState("");
+import * as Y from "yjs";
+import { LiveblocksYjsProvider } from "@liveblocks/yjs";
+import { useRoom } from "@liveblocks/react";
+import { editor } from "monaco-editor";
+import { MonacoBinding } from "y-monaco";
+import { Awareness } from "y-protocols/awareness";
+import { LiveblocksProvider } from "@liveblocks/react/suspense";
+
+const CodeEditor = () => {
+  // Collaborative code editor with undo/redo, live cursors, and live avatars
+  const room = useRoom();
+  const [provider, setProvider] = useState<LiveblocksYjsProvider>();
+  const [editorRef, setEditorRef] = useState<editor.IStandaloneCodeEditor>();
+
   const [language, setLanguage] = useState("javascript");
 
-  const onMount = (editor: any) => {
-    editor.focus();
-    setValue(code || "");
-  };
+  // Set up Liveblocks Yjs provider and attach Monaco editor
+  useEffect(() => {
+    let yProvider: LiveblocksYjsProvider;
+    let yDoc: Y.Doc;
+    let binding: MonacoBinding;
+
+    if (editorRef) {
+      yDoc = new Y.Doc();
+      const yText = yDoc.getText("monaco");
+      yProvider = new LiveblocksYjsProvider(room, yDoc);
+      setProvider(yProvider);
+
+      // Attach Yjs to Monaco
+      binding = new MonacoBinding(
+        yText,
+        editorRef.getModel() as editor.ITextModel,
+        new Set([editorRef]),
+        yProvider.awareness as unknown as Awareness,
+      );
+    }
+
+    return () => {
+      yDoc?.destroy();
+      yProvider?.destroy();
+      binding?.destroy();
+    };
+  }, [editorRef, room]);
+
+  const handleOnMount = useCallback((e: editor.IStandaloneCodeEditor) => {
+    setEditorRef(e);
+  }, []);
 
   const handleSelect = (language: string) => {
     setLanguage(language);
-    setValue(CODE_SNIPPETS[language]);
-  };
-
-  const handleSave = async () => {
-    const res = await updateFile({ fileId: fileId, fileContent: value });
-    if (!res) {
-      console.error("Error saving file");
-      // add toast message
-      return;
+    if (editorRef && editorRef.getValue().trim() === "") {
+      // Check for empty editor
+      editorRef.setValue(CODE_SNIPPETS[language]);
     }
-    console.log("File saved");
-    // add toast message
   };
 
   return (
@@ -40,7 +72,6 @@ const CodeEditor = ({ code, fileId }: CodeEditorProps) => {
         <div className={"flex flex-col justify-between gap-y-3"}>
           <div className={"flex flex-row justify-between"}>
             <LanguageSelector onSelect={handleSelect} language={language} />
-            <Button onClick={handleSave}>Save</Button>
           </div>
           <Editor
             className={cn("shadow-md", language === "python" && "python-editor-theme")}
@@ -50,14 +81,14 @@ const CodeEditor = ({ code, fileId }: CodeEditorProps) => {
             theme="vs-light"
             language={language}
             defaultValue={CODE_SNIPPETS[language]}
-            onMount={onMount}
-            value={value}
-            onChange={(newValue) => setValue(newValue || "")}
+            onMount={handleOnMount}
           />
         </div>
       </div>
 
-      <Output code={value} language={language} />
+      {/*<Output code={value} language={language} />*/}
+      {/* ! new */}
+      <Output code={editorRef?.getValue() || ""} language={language} />
     </div>
   );
 };
