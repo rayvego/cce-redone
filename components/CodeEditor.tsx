@@ -5,8 +5,6 @@ import { Editor } from "@monaco-editor/react";
 import { cn } from "@/lib/utils";
 import { CODE_SNIPPETS } from "@/lib/constants";
 import { LanguageSelector } from "@/components/LanguageSelector";
-import { updateFile } from "@/lib/actions/file.actions";
-import { Button } from "@/components/ui/button";
 import Output from "@/components/Output";
 // collaborative part imports
 
@@ -16,7 +14,6 @@ import { useRoom } from "@liveblocks/react";
 import { editor } from "monaco-editor";
 import { MonacoBinding } from "y-monaco";
 import { Awareness } from "y-protocols/awareness";
-import { LiveblocksProvider } from "@liveblocks/react/suspense";
 
 const CodeEditor = () => {
   // Collaborative code editor with undo/redo, live cursors, and live avatars
@@ -88,7 +85,7 @@ const CodeEditor = () => {
 
       {/*<Output code={value} language={language} />*/}
       {/* ! new */}
-      <Output code={editorRef?.getValue() || ""} language={language} />
+      <Output language={language} />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { executeCode, getCode } from "@/lib/actions/file.actions";
 import { cn } from "@/lib/utils";

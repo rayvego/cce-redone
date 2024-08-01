@@ -3,33 +3,6 @@ declare type ExecuteCodeProps = {
   sourceCode: string;
 };
 
-declare type CreateFileProps = {
-  fileName: string;
-  fileContent: string;
-};
-
-declare type UpdateFileProps = {
-  fileId: string;
-  fileContent: string;
-};
-
-declare type AddCollaboratorProps = {
-  fileId: string;
-  userId: string;
-  role: "editor" | "viewer";
-};
-
-declare type UpdateCollaboratorProps = {
-  fileId: string;
-  userIdToUpdate: string;
-  newRole: "editor" | "viewer";
-};
-
-declare type RemoveCollaboratorProps = {
-  fileId: string;
-  userIdToRemove: string;
-};
-
 declare type HeaderBoxProps = {
   type?: "title" | "greeting";
   title: string;
@@ -37,38 +10,19 @@ declare type HeaderBoxProps = {
   user?: string;
 };
 
-declare type ClerkUser = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  username: string;
-  imageUrl: string;
-};
-
 declare type User = {
-  _id: string;
-  username: string;
+  id: string;
+  name: string;
   email: string;
-  githubUsername: string;
-  externalId: string;
-  imageUrl: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-declare type FileDocument = {
-  _id: string;
-  externalUserId: string;
-  file_name: string;
-  file_content: string;
-  // isCollaborative: boolean;
-  collaborators: { userId: string; role: "editor" | "viewer" }[];
-  createdAt: Date;
-  updatedAt: Date;
+  avatar: string;
+  color: string;
+  userType?: UserType;
 };
 
 declare type RecentFilesProps = {
   initialFiles: FileDocument[];
+  userId: string;
+  email: string;
 };
 
 declare type FileCardProps = {
@@ -92,4 +46,21 @@ declare type LanguageSelectorProps = {
 
 declare type OutputProps = {
   language: string;
+};
+
+declare type CreateDocumentParams = {
+  userId: string;
+  email: string;
+  fileName: string;
+};
+
+declare type UserType = "creator" | "editor" | "viewer";
+
+declare type AccessType = ["room:write"] | ["room:read", "room:presence:write"];
+
+declare type ShareDocumentParams = {
+  roomId: string;
+  email: string;
+  userType: UserType;
+  updatedBy: User;
 };

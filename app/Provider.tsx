@@ -6,8 +6,8 @@ import { LiveblocksProvider, ClientSideSuspense, RoomProvider } from "@liveblock
 const Provider = ({ children }: { children: React.ReactNode }) => {
   return (
     <LiveblocksProvider
-      /*authEndpoint={"/api/liveblocks-auth"}*/
-      publicApiKey={"pk_dev_Y92eoW0hlWMHUFdxEGA5Agxpaz1JaOTflhoaJhMD3Iidk3vDggJ_H4U45VAdUGSM"}
+      authEndpoint={"/api/liveblocks-auth"}
+      /*publicApiKey={"pk_dev_Y92eoW0hlWMHUFdxEGA5Agxpaz1JaOTflhoaJhMD3Iidk3vDggJ_H4U45VAdUGSM"}*/
     >
       <ClientSideSuspense fallback={<div>Loading...</div>}>{children}</ClientSideSuspense>
     </LiveblocksProvider>

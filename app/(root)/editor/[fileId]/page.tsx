@@ -1,10 +1,12 @@
-import { getFile } from "@/lib/actions/file.actions";
 import CodeEditor from "@/components/CodeEditor";
 import Room from "@/components/Room";
+import { getDocument } from "@/lib/actions/file.actions";
+import { getUserInfo } from "@/lib/actions/user.actions";
 
 const Page = async ({ params }: { params: { fileId: string } }) => {
-  const file = await getFile(params.fileId);
-  console.log(file);
+  const user = await getUserInfo();
+  const file = await getDocument({ roomId: params.fileId, userId: user.emailAddresses[0].emailAddress });
+
   if (!file) {
     console.error("Error fetching file");
     return;
@@ -13,8 +15,7 @@ const Page = async ({ params }: { params: { fileId: string } }) => {
   return (
     <section className="home">
       <div className={"home-content"}>
-        <Room fileId={file._id}>
-          {/*<CodeEditor code={file.file_content} fileId={params.fileId} />*/}
+        <Room fileId={params.fileId}>
           <CodeEditor />
         </Room>
       </div>

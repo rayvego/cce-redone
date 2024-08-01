@@ -1,12 +1,11 @@
-import {UserButton} from "@clerk/nextjs";
-import {Button} from "@/components/ui/button";
+import { UserButton } from "@clerk/nextjs";
 
 const Nav = () => {
-	return (
-		<div>
-			<UserButton/>
-		</div>
-	);
+  return (
+    <div>
+      <UserButton />
+    </div>
+  );
 };
 
-export default Nav
+export default Nav;

@@ -1,16 +1,18 @@
 import { getUserInfo } from "@/lib/actions/user.actions";
 import HeaderBox from "@/components/HeaderBox";
 import RecentFiles from "@/components/RecentFiles";
-import { getFiles } from "@/lib/actions/file.actions";
+import { getDocuments } from "@/lib/actions/file.actions";
 
 const Page = async () => {
   const user = await getUserInfo();
-  const files = await getFiles();
+  const files = await getDocuments(user.emailAddresses[0].emailAddress);
 
   if (!files) {
     console.error("Error fetching files");
     return;
   }
+
+  console.log(files);
 
   return (
     <section className={"home"}>
@@ -25,7 +27,7 @@ const Page = async () => {
         </header>
 
         <div>
-          <RecentFiles initialFiles={files} />
+          <RecentFiles initialFiles={files} userId={user.id} email={user.emailAddresses[0].emailAddress} />
         </div>
       </div>
     </section>

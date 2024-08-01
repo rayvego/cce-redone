@@ -15,20 +15,12 @@ import { cn, formatDateTime } from "@/lib/utils";
 
 const FileCard = ({ file, handleDeleteFile, handleOpenFile }: FileCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  // const [isSelected, setIsSelected] = useState(false);
-
-  // // TODO: Make sure only one file is selected at a time
-  // const handleClick = () => {
-  //   // setIsSelected(!isSelected);
-  //   handleSelect(); // Trigger the parent component's onSelect
-  // };
 
   const handleOpenChange = (open: boolean) => setIsOpen(open);
 
-  // , {"bg-gray-100": isSelected,}
   return (
     <div className={cn("bg-white rounded-md shadow-md p-4 hover:bg-gray-200")}>
-      <h3 className="text-lg font-semibold mb-2">{file.file_name}</h3>
+      <h3 className="text-lg font-semibold mb-2">{file.metadata.title}</h3>
       <p className="text-sm text-gray-600">Created: {formatDateTime(new Date(file.createdAt)).dateTime}</p>
 
       <div className="flex gap-2 mt-4">
