@@ -43,12 +43,15 @@ export const executeCode = async ({ language, sourceCode }: ExecuteCodeProps) =>
 // ! new
 export const getDocument = async ({ roomId, userId }: { roomId: string; userId: string }) => {
   try {
-    console.log(roomId, userId);
     const room = await liveblocks.getRoom(roomId);
 
-    const hasAccess = Object.keys(room.usersAccesses).includes(userId);
-    if (!hasAccess) {
-      throw new Error("You don't have access to this document");
+    if (room.defaultAccesses.length === 0) {
+      // meaning that the room is private
+      const hasAccess = Object.keys(room.usersAccesses).includes(userId);
+      if (!hasAccess) {
+        // meaning that the user doesn't have access to the room
+        throw new Error("You don't have access to this document");
+      }
     }
 
     return parseStringify(room);
