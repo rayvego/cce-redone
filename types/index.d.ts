@@ -32,11 +32,16 @@ declare type FileCardProps = {
   // handleSelect: () => void;
 };
 
+declare type RoomMetadata = {
+  creatorId: string;
+  email: string;
+  title: string;
+};
+
 declare type CodeEditorProps = {
-  code: string;
-  fileId: string;
-  // handleSave: () => Promise<void>;
-  // role: "editor" | "viewer" | null;
+  users: User[];
+  currentUserType: UserType;
+  roomMetadata: RoomMetadata;
 };
 
 declare type LanguageSelectorProps = {
@@ -63,4 +68,25 @@ declare type ShareDocumentParams = {
   email: string;
   userType: UserType;
   updatedBy: User;
+};
+
+declare type ShareDocumentDialogProps = {
+  roomId: string;
+  collaborators: User[];
+  creatorId: string;
+  currentUserType: UserType;
+};
+
+declare type UserTypeSelectorParams = {
+  userType: string;
+  setUserType: React.Dispatch<React.SetStateAction<UserType>>;
+  onClickHandler?: (value: string) => void;
+};
+
+declare type CollaboratorProps = {
+  roomId: string;
+  email: string;
+  creatorId: string;
+  collaborator: User;
+  user: User;
 };

@@ -14,8 +14,10 @@ import { useRoom } from "@liveblocks/react";
 import { editor } from "monaco-editor";
 import { MonacoBinding } from "y-monaco";
 import { Awareness } from "y-protocols/awareness";
+import ActiveCollaborators from "@/components/ActiveCollaborators";
+import ShareModal from "@/components/ShareModal";
 
-const CodeEditor = () => {
+const CodeEditor = ({ users, currentUserType, roomMetadata }: CodeEditorProps) => {
   // Collaborative code editor with undo/redo, live cursors, and live avatars
   const room = useRoom();
   const [provider, setProvider] = useState<LiveblocksYjsProvider>();
@@ -69,22 +71,37 @@ const CodeEditor = () => {
         <div className={"flex flex-col justify-between gap-y-3"}>
           <div className={"flex flex-row justify-between"}>
             <LanguageSelector onSelect={handleSelect} language={language} />
+            <div className={"flex justify-between items-center gap-x-2"}>
+              <ActiveCollaborators />
+              <ShareModal
+                collaborators={users}
+                creatorId={roomMetadata.creatorId}
+                currentUserType={currentUserType}
+                roomId={room.id}
+              />
+            </div>
           </div>
           <Editor
             className={cn("shadow-md", language === "python" && "python-editor-theme")}
             // config options for the editor
-            options={{ minimap: { enabled: true } }}
+            options={{
+              minimap: { enabled: true },
+              readOnly: currentUserType === "viewer", // Read-only if user doesn't have write access
+            }}
             height="75vh"
             theme="vs-light"
             language={language}
             defaultValue={CODE_SNIPPETS[language]}
             onMount={handleOnMount}
           />
+          {currentUserType === "viewer" && ( // Conditionally render the overlay
+            <div className="absolute inset-0 flex justify-center bg-black bg-opacity-40 z-20 pt-5 text-white font-bold text-2xl">
+              <p>You only have permission to view 🥲</p>
+            </div>
+          )}
         </div>
       </div>
 
-      {/*<Output code={value} language={language} />*/}
-      {/* ! new */}
       <Output language={language} />
     </div>
   );

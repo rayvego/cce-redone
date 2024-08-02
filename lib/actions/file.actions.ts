@@ -114,7 +114,7 @@ export const createDocument = async ({ userId, email, fileName = "Untitled" }: C
 
     const room = await liveblocks.createRoom(roomId, {
       metadata,
-      defaultAccesses: ["room:write"], //  delete all users and then retry if you are changing the defaultAccesses, but it's not updating...
+      defaultAccesses: [], //  delete all users and then retry if you are changing the defaultAccesses, but it's not updating...
       usersAccesses,
     });
 
@@ -156,6 +156,9 @@ export const updateDocumentAccess = async ({ roomId, email, userType, updatedBy 
     const room = await liveblocks.updateRoom(roomId, {
       usersAccesses,
     });
+
+    console.log(room.usersAccesses);
+    console.log(roomId, email, userType, updatedBy);
 
     // if (room) {
     //   // ! this is how to trigger a custom notification
