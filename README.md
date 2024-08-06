@@ -1,3 +1,5 @@
+# [RayCode](https://cce-redone-dmkc8hruh-rayvegos-projects.vercel.app/): Your one stop solution for Collaborative Code Editing!
+
 ## Introduction
 
 This web-based collaborative code editor empowers developers to write, edit, and execute code together in real-time. Whether you're pair programming, conducting a code review, or collaborating on a project, this tool provides a seamless and efficient environment.
@@ -70,3 +72,8 @@ https://github.com/rayvego/collaborative-code-editor
 2. Liveblocks Learning Project:
 - Code: https://github.com/rayvego/jsm-google-docs
 - Tutorial: https://www.youtube.com/watch?v=y5vE8y_f_OM&t=6s
+
+
+## Screenshots
+
+Will be added soon.
