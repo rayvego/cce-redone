@@ -1,4 +1,4 @@
-# [RayCode](https://cce-redone-dmkc8hruh-rayvegos-projects.vercel.app/): Your one stop solution for Collaborative Code Editing!
+# [RayCode](https://cce-redone.vercel.app/): Your one stop solution for Collaborative Code Editing!
 
 ## Introduction
 
